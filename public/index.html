@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f6">
+  <title>TokenWise | Optimization Lab</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/vendor/lucide.js" defer></script>
+  <script src="/app.js" type="module"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="TokenWise home"><span class="brand-icon"><i data-lucide="layers-2"></i></span>TokenWise<span class="brand-dot">.</span></a>
+      <div class="workspace-label">WORKSPACE / 01</div>
+      <nav aria-label="Workspace">
+        <button class="nav-button active" id="chatTab" aria-pressed="true"><i data-lucide="messages-square"></i><span>Conversation</span><i data-lucide="chevron-right" class="nav-arrow"></i></button>
+        <button class="nav-button" id="ledgerTab" aria-pressed="false"><i data-lucide="chart-no-axes-combined"></i><span>Usage ledger</span><span id="runCount" class="nav-count">0</span></button>
+      </nav>
+      <button class="new-session" id="newSession"><i data-lucide="plus"></i>New conversation</button>
+      <div class="sidebar-bottom">
+        <div class="connection"><span class="status-dot"></span><span>Local demo provider</span></div>
+        <div class="sidebar-actions"><button id="clearCache" title="Clear response cache" aria-label="Clear response cache"><i data-lucide="database-backup"></i></button><button id="exportSession" title="Export session ledger" aria-label="Export session ledger"><i data-lucide="download"></i></button><span>v0.1 / Hackathon</span></div>
+      </div>
+    </aside>
+    <main>
+      <header class="page-header"><div><div class="eyebrow">TOKENWISE / OPTIMIZATION LAB</div><h1>Every token accounted for.</h1></div><span class="environment"><span class="status-dot"></span>Local workspace</span></header>
+      <div class="demo-banner"><span class="demo-badge">DEMO</span><span>Scripted answers. Simulated token usage and pricing. Quality not evaluated.</span><i data-lucide="flask-conical"></i></div>
+      <section class="metrics" aria-label="Conversation totals">
+        <div class="metric"><span class="metric-label">Simulated savings<i data-lucide="trending-down"></i></span><strong id="savingsPercent">0.0<span>%</span></strong><span class="metric-foot" id="savingsValue">$0.000000 vs. estimated baseline</span></div>
+        <div class="metric"><span class="metric-label">Inference tokens<i data-lucide="binary"></i></span><strong id="totalTokens">0</strong><span class="metric-foot">Estimated input + output, all attempts</span></div>
+        <div class="metric"><span class="metric-label">Simulated cost<i data-lucide="wallet"></i></span><strong class="cost-number" id="totalCost">$0.000000</strong><span class="metric-foot">Illustrative inference only</span></div>
+        <div class="metric"><span class="metric-label">Response cache<i data-lucide="database"></i></span><strong id="cacheRate">0<span>%</span></strong><span class="metric-foot" id="cacheCount">0 hits across 0 requests</span></div>
+      </section>
+      <div id="chatView" class="workbench">
+        <section class="conversation" aria-label="Chat">
+          <div class="section-heading"><h2>Conversation</h2><span id="sessionLabel">Session 01</span></div>
+          <div id="messages" class="messages" aria-live="polite">
+            <div id="welcome" class="welcome">
+              <div class="welcome-mark"><i data-lucide="sparkles"></i></div>
+              <h2>A fresh context.</h2>
+              <div class="example-buttons">
+                <button data-example="tokens"><i data-lucide="binary"></i><span>Explain tokens</span><i data-lucide="arrow-up-right"></i></button>
+                <button data-example="cache"><i data-lucide="database"></i><span>Compare caching strategies</span><i data-lucide="arrow-up-right"></i></button>
+                <button data-example="recovery"><i data-lucide="git-branch"></i><span>Run recovery scenario</span><i data-lucide="arrow-up-right"></i></button>
+              </div>
+              <button id="sampleImage" class="sample-tile"><canvas id="sampleCanvas" width="2400" height="1600" aria-label="Sample operations report with a monthly bar chart"></canvas><span><i data-lucide="image"></i>Use sample image<i data-lucide="plus"></i></span></button>
+            </div>
+          </div>
+          <form id="chatForm" class="composer">
+            <div id="attachments" class="attachments"></div>
+            <label class="sr-only" for="prompt">Your prompt</label><textarea id="prompt" rows="3" maxlength="12000" placeholder="Ask a question or add media..." required></textarea>
+            <div class="composer-toolbar"><div class="composer-tools"><button type="button" class="icon-button" id="attachButton" title="Attach images, text, or a short video" aria-label="Attach files"><i data-lucide="paperclip"></i></button><input type="file" id="fileInput" accept=".txt,.md,.png,.jpg,.jpeg,.webp,video/mp4,video/webm" multiple hidden><span class="toolbar-divider"></span><label class="detail-toggle"><input type="checkbox" id="preserveDetail"><span>Preserve detail</span></label></div><button type="submit" id="sendButton" class="send-button" title="Send request" aria-label="Send request"><i data-lucide="arrow-up"></i></button></div>
+          </form>
+          <div class="composer-status"><span id="requestStatus" role="status">Ready</span><span>Text / Image / Sampled video</span></div>
+          <div id="error" class="error-message" role="alert" hidden></div>
+        </section>
+        <aside class="inspector" aria-label="Request inspector"><div class="section-heading"><h2>Request inspector</h2><i data-lucide="scan-line"></i></div><div id="inspectorContent" class="inspector-content"><div class="inspector-empty"><i data-lucide="route"></i><h3>No request selected</h3><span class="subtle">Awaiting first run</span></div><div class="policy-summary"><div><span>Response cache</span><strong>Exact match</strong></div><div><span>Semantic cache</span><strong>Disabled</strong></div><div><span>Retry limit</span><strong>2 attempts</strong></div><div><span>Quality evaluation</span><strong>Not connected</strong></div></div></div></aside>
+      </div>
+      <section id="ledgerView" class="ledger-view" hidden><div class="section-heading"><h2>Usage ledger</h2><span>All attempts included</span></div><div class="table-scroll"><table><thead><tr><th>Run</th><th>Answering model</th><th>Cache</th><th>Input</th><th>Output</th><th>Sim. cost</th><th>Sim. savings</th></tr></thead><tbody id="ledgerRows"></tbody></table></div><p class="ledger-note">Baseline: original submitted payload on Demo Large, with the same scripted output length. Video baselines cover submitted frames only. CPU, storage, and preprocessing costs are not priced.</p></section>
+      <footer><span>TokenWise</span><span>Optimize first. Route second. Account for both.</span></footer>
+    </main>
+  </div>
+</body>
+</html>
