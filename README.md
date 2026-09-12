@@ -1,6 +1,6 @@
 # TokenWise
 
-A local, demo-first AI optimization gateway for your four-person hackathon team. Optimize the input before selecting the model, then expose the decisions and usage in a chat workspace.
+A local, demo-first AI optimization gateway. Optimize the input before selecting the model, then expose the decisions and usage in a chat workspace.
 
 ## Start here
 
